@@ -103,7 +103,8 @@
 
 12345678.DS_StoreThumbs.dbdb.json*.lognode_modules/.deploy*//.deplo">
 <meta property="og:image" content="http://o837erx86.bkt.clouddn.com//blogger/oschina-repo-clean.jpg">
-<meta property="og:updated_time" content="2016-08-24T08:31:19.065Z">
+<meta property="og:image" content="http://o837erx86.bkt.clouddn.com//blogger/hexo-blog-delete.jpg">
+<meta property="og:updated_time" content="2016-08-24T08:52:34.680Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo多个终端更新blog">
 <meta name="twitter:description" content="注册oschina账户创建私有仓库blog-backup1https://git.oschina.net/xwydq/blog-backup.git
@@ -342,10 +343,17 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#为了使用hexo d来部署到git上，需要安装</div><div class="line">npm install hexo-deployer-git --save</div><div class="line">#为了建立RSS订阅，需要安装</div><div class="line">npm install hexo-generator-feed --save</div><div class="line">#为了建立站点地图，需要安装</div><div class="line">npm install hexo-generator-sitemap --save</div></pre></td></tr></table></figure>
 <h4 id="获取oschina上的备份文件"><a href="#获取oschina上的备份文件" class="headerlink" title="获取oschina上的备份文件"></a>获取oschina上的备份文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git init</div><div class="line">git remote add origin https://git.oschina.net/xwydq/blog-backup.git #将本地文件和云端仓库映射起来。这步不可以跳过</div><div class="line">git fetch --all</div><div class="line">git reset --hard origin/master</div></pre></td></tr></table></figure>
 <p>执行下列命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">npm install ##执行完该命令后，执行如下命令</div><div class="line">hexo clean ##非必要(个人习惯)</div><div class="line">hexo g </div><div class="line">hexo s ##(运行hexo博客本地服务打开locahost:4000即可预览博客)</div></pre></td></tr></table></figure></p>
-<h4 id="更新blog"><a href="#更新blog" class="headerlink" title="更新blog"></a>更新blog</h4><p>新生成md文件<br>直接部署</p>
+<h4 id="更新blog"><a href="#更新blog" class="headerlink" title="更新blog"></a>更新blog</h4><p>生成<code>md</code>文件，直接部署</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo d -g</div></pre></td></tr></table></figure>
 <p>在oschina中备份</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git add .</div><div class="line">git commit -m &quot;update blog&quot;</div><div class="line">git push</div></pre></td></tr></table></figure>
+<h4 id="删除blog"><a href="#删除blog" class="headerlink" title="删除blog"></a>删除blog</h4><ol>
+<li>删除对应的<code>md</code>文件</li>
+<li>删除<code>db.json</code><br><img src="http://o837erx86.bkt.clouddn.com//blogger/hexo-blog-delete.jpg" alt="image"></li>
+<li>执行</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo clean</div><div class="line">hexo d -g</div></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -490,7 +498,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#注册oschina账户"><span class="nav-number">1.</span> <span class="nav-text">注册oschina账户</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建私有仓库blog-backup"><span class="nav-number">1.1.</span> <span class="nav-text">创建私有仓库blog-backup</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#清空项目"><span class="nav-number">1.2.</span> <span class="nav-text">清空项目</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#上传blog文件到oschina"><span class="nav-number">2.</span> <span class="nav-text">上传blog文件到oschina</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用B电脑"><span class="nav-number">3.</span> <span class="nav-text">使用B电脑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装配置nodejs、git"><span class="nav-number">3.1.</span> <span class="nav-text">安装配置nodejs、git</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取oschina上的备份文件"><span class="nav-number">3.2.</span> <span class="nav-text">获取oschina上的备份文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新blog"><span class="nav-number">3.3.</span> <span class="nav-text">更新blog</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#注册oschina账户"><span class="nav-number">1.</span> <span class="nav-text">注册oschina账户</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建私有仓库blog-backup"><span class="nav-number">1.1.</span> <span class="nav-text">创建私有仓库blog-backup</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#清空项目"><span class="nav-number">1.2.</span> <span class="nav-text">清空项目</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#上传blog文件到oschina"><span class="nav-number">2.</span> <span class="nav-text">上传blog文件到oschina</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用B电脑"><span class="nav-number">3.</span> <span class="nav-text">使用B电脑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装配置nodejs、git"><span class="nav-number">3.1.</span> <span class="nav-text">安装配置nodejs、git</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取oschina上的备份文件"><span class="nav-number">3.2.</span> <span class="nav-text">获取oschina上的备份文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新blog"><span class="nav-number">3.3.</span> <span class="nav-text">更新blog</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除blog"><span class="nav-number">3.4.</span> <span class="nav-text">删除blog</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
