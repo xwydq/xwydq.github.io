@@ -1,0 +1,682 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Rmd,Rstudio,knitr," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="&amp;#x4E00;&amp;#x76F4;&amp;#x6C89;&amp;#x8FF7;&amp;#x4E8E;Rmarkdown + knitr&amp;#x751F;&amp;#x6210;&amp;#x6570;&amp;#x636E;&amp;#x62A5;&amp;#x544A;&amp;#x7684;&amp;#x7B80;&amp;#x6D01;&amp;#x6027;&amp;#xFF0C;&amp;#x548C;&amp;#x5B9E;&amp;#x73B0;&amp;#x53EF;&amp;#x91CD;&amp;#x590D;&amp;#x62A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rmd文件生成md后再部署">
+<meta property="og:url" content="http://yoursite.com/2016/08/25/rmd_output/index.html">
+<meta property="og:site_name" content="飞舞的尘埃">
+<meta property="og:description" content="&amp;#x4E00;&amp;#x76F4;&amp;#x6C89;&amp;#x8FF7;&amp;#x4E8E;Rmarkdown + knitr&amp;#x751F;&amp;#x6210;&amp;#x6570;&amp;#x636E;&amp;#x62A5;&amp;#x544A;&amp;#x7684;&amp;#x7B80;&amp;#x6D01;&amp;#x6027;&amp;#xFF0C;&amp;#x548C;&amp;#x5B9E;&amp;#x73B0;&amp;#x53EF;&amp;#x91CD;&amp;#x590D;&amp;#x62A">
+<meta property="og:image" content="http://yoursite.com/2016/08/25/rmd_output/figure-markdown_github/unnamed-chunk-2-1.png">
+<meta property="og:image" content="http://yoursite.com/2016/08/25/rmd_output/figure-markdown_github/unnamed-chunk-3-1.png">
+<meta property="og:image" content="http://o837erx86.bkt.clouddn.com/gKVGhiP.png">
+<meta property="og:updated_time" content="2016-08-25T09:58:44.411Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Rmd文件生成md后再部署">
+<meta name="twitter:description" content="&amp;#x4E00;&amp;#x76F4;&amp;#x6C89;&amp;#x8FF7;&amp;#x4E8E;Rmarkdown + knitr&amp;#x751F;&amp;#x6210;&amp;#x6570;&amp;#x636E;&amp;#x62A5;&amp;#x544A;&amp;#x7684;&amp;#x7B80;&amp;#x6D01;&amp;#x6027;&amp;#xFF0C;&amp;#x548C;&amp;#x5B9E;&amp;#x73B0;&amp;#x53EF;&amp;#x91CD;&amp;#x590D;&amp;#x62A">
+<meta name="twitter:image" content="http://yoursite.com/2016/08/25/rmd_output/figure-markdown_github/unnamed-chunk-2-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/08/25/rmd_output/"/>
+
+  <title> Rmd文件生成md后再部署 | 飞舞的尘埃 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">飞舞的尘埃</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Rmd文件生成md后再部署
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-25T15:35:26+08:00" content="2016-08-25">
+              2016-08-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/25/rmd_output/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/25/rmd_output/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>&#x4E00;&#x76F4;&#x6C89;&#x8FF7;&#x4E8E;<code>Rmarkdown</code> + <code>knitr</code>&#x751F;&#x6210;&#x6570;&#x636E;&#x62A5;&#x544A;&#x7684;&#x7B80;&#x6D01;&#x6027;&#xFF0C;&#x548C;&#x5B9E;&#x73B0;&#x53EF;&#x91CD;&#x590D;&#x62A5;&#x544A;&#x7684;&#x4FBF;&#x5229;&#x6027;&#x3002;&#x76EE;&#x524D;&#x5DF2;&#x6709;<a href="https://brendanrocks.com/blogging-with-rmarkdown-knitr-jekyll/" target="_blank" rel="external">blogging-with-rmarkdown-knitr-jekyll</a>&#xFF0C;&#x4F46;&#x662F;&#x73AF;&#x5883;&#x914D;&#x7F6E;&#x590D;&#x6742;&#xFF0C;&#x8FD8;&#x672A;&#x80FD;&#x5B9E;&#x73B0;&#x3002;</p>
+</blockquote>
+<h3 id="&#x89E3;&#x51B3;&#x8FC7;&#x7A0B;"><a href="#&#x89E3;&#x51B3;&#x8FC7;&#x7A0B;" class="headerlink" title="&#x89E3;&#x51B3;&#x8FC7;&#x7A0B;"></a>&#x89E3;&#x51B3;&#x8FC7;&#x7A0B;</h3><ol>
+<li>&#x7F16;&#x5199;<code>Rmarkdown</code>&#x4EE3;&#x7801;</li>
+<li>&#x4F7F;&#x7528;<code>knitr::knit</code>&#x5C06;<code>.Rmd</code>&#x6587;&#x4EF6;&#x8F6C;&#x5316;&#x4E3A;<code>.md</code>&#x6587;&#x4EF6;</li>
+<li>&#x6574;&#x7406;&#x4E0A;&#x4E00;&#x6B65;&#x9644;&#x5E26;&#x751F;&#x6210;&#x7684;&#x56FE;&#x7247;&#x7B49;&#x6587;&#x4EF6;&#xFF0C;&#x4FEE;&#x6539;&#x6587;&#x4EF6;&#x5939;&#x540D;&#x79F0;&#x4E0E;<code>.md</code>&#x6587;&#x4EF6;&#x540D;&#x4E00;&#x81F4;&#xFF0C;&#x5C06;<code>.md</code>&#x6587;&#x4EF6;&#x4E0E;&#x9644;&#x4EF6;&#x6587;&#x4EF6;&#x5939;&#x590D;&#x5236;&#x5230;<code>Hexo/source/_posts</code></li>
+<li>&#x4FEE;&#x6539;<code>.md</code>&#x6587;&#x4EF6;&#xFF08;&#x6DFB;&#x52A0;<code>title, tags, categories</code>&#x7B49;&#x53C2;&#x6570;&#xFF09;&#x4EE5;&#x6EE1;&#x8DB3;&#x90E8;&#x7F72;</li>
+<li>&#x90E8;&#x7F72;&#x5230;github</li>
+</ol>
+<h3 id="&#x5B89;&#x88C5;&#x63D2;&#x4EF6;hexo-asset-image"><a href="#&#x5B89;&#x88C5;&#x63D2;&#x4EF6;hexo-asset-image" class="headerlink" title="&#x5B89;&#x88C5;&#x63D2;&#x4EF6;hexo-asset-image"></a>&#x5B89;&#x88C5;&#x63D2;&#x4EF6;<code>hexo-asset-image</code></h3><ul>
+<li>&#x7F16;&#x8F91;<code>Hexo</code>&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<code>_config.yml</code>&#xFF0C;&#x4FEE;&#x6539; <code>post_asset_folder:true</code></li>
+<li>&#x5B89;&#x88C5;&#x63D2;&#x4EF6;<code>hexo-asset-image</code><br>&#x5728;<code>Hexo</code>&#x76EE;&#x5F55;&#x4E0B;<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install https://github.com/CodeFalling/hexo-asset-image --save</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&#x53C2;&#x8003;&#xFF1A;<a href="https://github.com/CodeFalling/codefalling.com/blob/master/source/_posts/no-pains-with-hexo-local-image.org" target="_blank" rel="external">&#x5728; hexo &#x4E2D;&#x65E0;&#x75DB;&#x4F7F;&#x7528;&#x672C;&#x5730;&#x56FE;&#x7247;</a></p>
+<h3 id="&#x7F16;&#x5199;Rmd"><a href="#&#x7F16;&#x5199;Rmd" class="headerlink" title="&#x7F16;&#x5199;Rmd"></a>&#x7F16;&#x5199;<code>Rmd</code></h3><p><a href="http://git.oschina.net/xwydq/rstudio-blog/blob/master/rmd_output.Rmd?dir=0&amp;filepath=rmd_output.Rmd&amp;oid=7a5faa1d8edd1b7a6e068b199252a6cda8f7a610&amp;sha=b4071228e83671964ca9c14e245568f2e6ed9bba" target="_blank" rel="external"><code>rmd_output.Rmd</code>&#x4EE3;&#x7801;</a></p>
+<h3 id="&#x4F7F;&#x7528;knit&#x8F6C;&#x5316;&#x4E3A;md&#x6587;&#x4EF6;"><a href="#&#x4F7F;&#x7528;knit&#x8F6C;&#x5316;&#x4E3A;md&#x6587;&#x4EF6;" class="headerlink" title="&#x4F7F;&#x7528;knit&#x8F6C;&#x5316;&#x4E3A;md&#x6587;&#x4EF6;"></a>&#x4F7F;&#x7528;<code>knit</code>&#x8F6C;&#x5316;&#x4E3A;<code>md</code>&#x6587;&#x4EF6;</h3><ul>
+<li>rstudio</li>
+<li>&#x547D;&#x4EE4;&#x884C;<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">library(knitr)</div><div class="line">knit(input=&apos;rmd_output.Rmd&apos;, output=&apos;rmd_output.md&apos;)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x7F16;&#x8F91;md&#x6587;&#x4EF6;&#x540E;&#x90E8;&#x7F72;&#xFF0C;&#x663E;&#x793A;&#x6548;&#x679C;"><a href="#&#x7F16;&#x8F91;md&#x6587;&#x4EF6;&#x540E;&#x90E8;&#x7F72;&#xFF0C;&#x663E;&#x793A;&#x6548;&#x679C;" class="headerlink" title="&#x7F16;&#x8F91;md&#x6587;&#x4EF6;&#x540E;&#x90E8;&#x7F72;&#xFF0C;&#x663E;&#x793A;&#x6548;&#x679C;"></a>&#x7F16;&#x8F91;md&#x6587;&#x4EF6;&#x540E;&#x90E8;&#x7F72;&#xFF0C;&#x663E;&#x793A;&#x6548;&#x679C;</h3><hr>
+<h3 id="&#x63D2;&#x5165;R&#x4EE3;&#x7801;"><a href="#&#x63D2;&#x5165;R&#x4EE3;&#x7801;" class="headerlink" title="&#x63D2;&#x5165;R&#x4EE3;&#x7801;"></a>&#x63D2;&#x5165;R&#x4EE3;&#x7801;</h3><h4 id="R&#x4EE3;&#x7801;&#x53CA;&#x8FD0;&#x884C;&#x7ED3;&#x679C;&#x7684;&#x663E;&#x793A;"><a href="#R&#x4EE3;&#x7801;&#x53CA;&#x8FD0;&#x884C;&#x7ED3;&#x679C;&#x7684;&#x663E;&#x793A;" class="headerlink" title="R&#x4EE3;&#x7801;&#x53CA;&#x8FD0;&#x884C;&#x7ED3;&#x679C;&#x7684;&#x663E;&#x793A;"></a>R&#x4EE3;&#x7801;&#x53CA;&#x8FD0;&#x884C;&#x7ED3;&#x679C;&#x7684;&#x663E;&#x793A;</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">summary(cars)</div></pre></td></tr></table></figure>
+<pre><code>##      speed           dist       
+##  Min.   : 4.0   Min.   :  2.00  
+##  1st Qu.:12.0   1st Qu.: 26.00  
+##  Median :15.0   Median : 36.00  
+##  Mean   :15.4   Mean   : 42.98  
+##  3rd Qu.:19.0   3rd Qu.: 56.00  
+##  Max.   :25.0   Max.   :120.00
+</code></pre><h3 id="&#x63D2;&#x5165;R&#x56FE;&#x7247;"><a href="#&#x63D2;&#x5165;R&#x56FE;&#x7247;" class="headerlink" title="&#x63D2;&#x5165;R&#x56FE;&#x7247;"></a>&#x63D2;&#x5165;R&#x56FE;&#x7247;</h3><h4 id="&#x7531;R&#x4EE3;&#x7801;plot&#x4EA7;&#x751F;&#x7684;&#x56FE;&#x7247;"><a href="#&#x7531;R&#x4EE3;&#x7801;plot&#x4EA7;&#x751F;&#x7684;&#x56FE;&#x7247;" class="headerlink" title="&#x7531;R&#x4EE3;&#x7801;plot&#x4EA7;&#x751F;&#x7684;&#x56FE;&#x7247;"></a>&#x7531;R&#x4EE3;&#x7801;<code>plot</code>&#x4EA7;&#x751F;&#x7684;&#x56FE;&#x7247;</h4><p><img src="/2016/08/25/rmd_output/figure-markdown_github/unnamed-chunk-2-1.png" alt=""></p>
+<h4 id="&#x7531;R&#x4EE3;&#x7801;ggplot&#x4EA7;&#x751F;&#x7684;&#x56FE;&#x7247;"><a href="#&#x7531;R&#x4EE3;&#x7801;ggplot&#x4EA7;&#x751F;&#x7684;&#x56FE;&#x7247;" class="headerlink" title="&#x7531;R&#x4EE3;&#x7801;ggplot&#x4EA7;&#x751F;&#x7684;&#x56FE;&#x7247;"></a>&#x7531;R&#x4EE3;&#x7801;<code>ggplot</code>&#x4EA7;&#x751F;&#x7684;&#x56FE;&#x7247;</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">library</span>(ggplot2)</div><div class="line">p &lt;- ggplot(mpg, aes(displ, hwy)) +</div><div class="line">  geom_point() +</div><div class="line">  geom_smooth() +</div><div class="line">  ggtitle(<span class="string">&quot;&#x4E2D;&#x6587;&#x6807;&#x9898;&quot;</span>)</div><div class="line">print(p)</div></pre></td></tr></table></figure>
+<p><img src="/2016/08/25/rmd_output/figure-markdown_github/unnamed-chunk-3-1.png" alt=""></p>
+<h4 id="&#x7531;&#x56FE;&#x5E8A;&#x4EA7;&#x751F;&#x7684;&#x56FE;&#x7247;"><a href="#&#x7531;&#x56FE;&#x5E8A;&#x4EA7;&#x751F;&#x7684;&#x56FE;&#x7247;" class="headerlink" title="&#x7531;&#x56FE;&#x5E8A;&#x4EA7;&#x751F;&#x7684;&#x56FE;&#x7247;"></a>&#x7531;&#x56FE;&#x5E8A;&#x4EA7;&#x751F;&#x7684;&#x56FE;&#x7247;</h4><p><img src="http://o837erx86.bkt.clouddn.com/gKVGhiP.png" alt="&#x56FE;&#x5E8A;&#x56FE;&#x7247;"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Rmd/" rel="tag">#Rmd</a>
+          
+            <a href="/tags/Rstudio/" rel="tag">#Rstudio</a>
+          
+            <a href="/tags/knitr/" rel="tag">#knitr</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/24/hexo多个终端更新blog/" rel="next" title="hexo多个终端更新blog">
+                <i class="fa fa-chevron-left"></i> hexo多个终端更新blog
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/25/rmd_output/"
+           data-title="Rmd文件生成md后再部署" data-url="http://yoursite.com/2016/08/25/rmd_output/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="大葱丛" />
+          <p class="site-author-name" itemprop="name">大葱丛</p>
+          <p class="site-description motion-element" itemprop="description">人的一切痛苦，本质上都是对自己的无能的愤怒</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#解决过程"><span class="nav-number">1.</span> <span class="nav-text">解决过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装插件hexo-asset-image"><span class="nav-number">2.</span> <span class="nav-text">安装插件hexo-asset-image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写Rmd"><span class="nav-number">3.</span> <span class="nav-text">编写Rmd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用knit转化为md文件"><span class="nav-number">4.</span> <span class="nav-text">使用knit转化为md文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑md文件后部署，显示效果"><span class="nav-number">5.</span> <span class="nav-text">编辑md文件后部署，显示效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入R代码"><span class="nav-number">6.</span> <span class="nav-text">插入R代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#R代码及运行结果的显示"><span class="nav-number">6.1.</span> <span class="nav-text">R代码及运行结果的显示</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入R图片"><span class="nav-number">7.</span> <span class="nav-text">插入R图片</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#由R代码plot产生的图片"><span class="nav-number">7.1.</span> <span class="nav-text">由R代码plot产生的图片</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#由R代码ggplot产生的图片"><span class="nav-number">7.2.</span> <span class="nav-text">由R代码ggplot产生的图片</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#由图床产生的图片"><span class="nav-number">7.3.</span> <span class="nav-text">由图床产生的图片</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大葱丛</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xwydq"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+</body>
+</html>
