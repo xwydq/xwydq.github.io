@@ -1,0 +1,691 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="相似度,距离,相关系数," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="&amp;#x76F8;&amp;#x4F3C;&amp;#x5EA6;&amp;#x7B97;&amp;#x6CD5;&amp;#x6BD4;&amp;#x8F83;&amp;#x8DDD;&amp;#x79BB;&amp;#x76F8;&amp;#x4F3C;&amp;#x5EA6;&amp;#x4E24;&amp;#x4E2A;n&amp;#x7EF4;&amp;#x5411;&amp;#x91CF;$a(x_1,x_2,&amp;#x2026;,x_n)$&amp;#x4E0E; $b(y_1,y_2,&amp;#x2026;,y_n)$&amp;#x9">
+<meta property="og:type" content="article">
+<meta property="og:title" content="相似度算法比较">
+<meta property="og:url" content="http://yoursite.com/2016/09/19/similarity-algorithm/index.html">
+<meta property="og:site_name" content="飞舞的尘埃">
+<meta property="og:description" content="&amp;#x76F8;&amp;#x4F3C;&amp;#x5EA6;&amp;#x7B97;&amp;#x6CD5;&amp;#x6BD4;&amp;#x8F83;&amp;#x8DDD;&amp;#x79BB;&amp;#x76F8;&amp;#x4F3C;&amp;#x5EA6;&amp;#x4E24;&amp;#x4E2A;n&amp;#x7EF4;&amp;#x5411;&amp;#x91CF;$a(x_1,x_2,&amp;#x2026;,x_n)$&amp;#x4E0E; $b(y_1,y_2,&amp;#x2026;,y_n)$&amp;#x9">
+<meta property="og:updated_time" content="2016-09-22T00:57:58.623Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="相似度算法比较">
+<meta name="twitter:description" content="&amp;#x76F8;&amp;#x4F3C;&amp;#x5EA6;&amp;#x7B97;&amp;#x6CD5;&amp;#x6BD4;&amp;#x8F83;&amp;#x8DDD;&amp;#x79BB;&amp;#x76F8;&amp;#x4F3C;&amp;#x5EA6;&amp;#x4E24;&amp;#x4E2A;n&amp;#x7EF4;&amp;#x5411;&amp;#x91CF;$a(x_1,x_2,&amp;#x2026;,x_n)$&amp;#x4E0E; $b(y_1,y_2,&amp;#x2026;,y_n)$&amp;#x9">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/09/19/similarity-algorithm/"/>
+
+  <title> 相似度算法比较 | 飞舞的尘埃 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">飞舞的尘埃</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                相似度算法比较
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-19T17:45:16+08:00" content="2016-09-19">
+              2016-09-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/19/similarity-algorithm/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/19/similarity-algorithm/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="&#x76F8;&#x4F3C;&#x5EA6;&#x7B97;&#x6CD5;&#x6BD4;&#x8F83;"><a href="#&#x76F8;&#x4F3C;&#x5EA6;&#x7B97;&#x6CD5;&#x6BD4;&#x8F83;" class="headerlink" title="&#x76F8;&#x4F3C;&#x5EA6;&#x7B97;&#x6CD5;&#x6BD4;&#x8F83;"></a>&#x76F8;&#x4F3C;&#x5EA6;&#x7B97;&#x6CD5;&#x6BD4;&#x8F83;</h1><h2 id="&#x8DDD;&#x79BB;&#x76F8;&#x4F3C;&#x5EA6;"><a href="#&#x8DDD;&#x79BB;&#x76F8;&#x4F3C;&#x5EA6;" class="headerlink" title="&#x8DDD;&#x79BB;&#x76F8;&#x4F3C;&#x5EA6;"></a>&#x8DDD;&#x79BB;&#x76F8;&#x4F3C;&#x5EA6;</h2><p>&#x4E24;&#x4E2A;n&#x7EF4;&#x5411;&#x91CF;$a(x_1,x_2,&#x2026;,x_n)$&#x4E0E; $b(y_1,y_2,&#x2026;,y_n)$&#x95F4;&#x7684;&#x4EE5;&#x4E0B;&#x8DDD;&#x79BB;&#x8BA1;&#x7B97;</p>
+<h3 id="&#x6B27;&#x6C0F;&#x8DDD;&#x79BB;-Euclidean-Distance"><a href="#&#x6B27;&#x6C0F;&#x8DDD;&#x79BB;-Euclidean-Distance" class="headerlink" title="&#x6B27;&#x6C0F;&#x8DDD;&#x79BB;(Euclidean Distance)"></a>&#x6B27;&#x6C0F;&#x8DDD;&#x79BB;(Euclidean Distance)</h3><p>&#x8BA1;&#x7B97;&#x4E24;&#x70B9;&#x4E4B;&#x95F4;&#x7684;&#x76F4;&#x7EBF;&#x8DDD;&#x79BB;</p>
+<p>$$d<em>{12} = \sqrt {\sum</em>{k=1}^n (x_k - y_k)^2}$$</p>
+<p>&#x6216;<br>$$d_{12} = \sqrt{(a - b) (a - b)^T}$$</p>
+<h3 id="&#x66FC;&#x54C8;&#x987F;&#x8DDD;&#x79BB;-Manhattan-Distance"><a href="#&#x66FC;&#x54C8;&#x987F;&#x8DDD;&#x79BB;-Manhattan-Distance" class="headerlink" title="&#x66FC;&#x54C8;&#x987F;&#x8DDD;&#x79BB;(Manhattan Distance)"></a>&#x66FC;&#x54C8;&#x987F;&#x8DDD;&#x79BB;(Manhattan Distance)</h3><p>&#x4E5F;&#x53EB;&#x57CE;&#x5E02;&#x8857;&#x533A;&#x8DDD;&#x79BB;&#xFF0C;&#x4ECE;&#x66FC;&#x54C8;&#x987F;&#x5F00;&#x8F66;&#x5230;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x5341;&#x5B57;&#x8DEF;&#x53E3;&#xFF0C;&#x5B9E;&#x9645;&#x9A7E;&#x9A76;&#x8DDD;&#x79BB;&#x5C31;&#x662F;&#x8FD9;&#x4E2A;&#x201C;&#x66FC;&#x54C8;&#x987F;&#x8DDD;&#x79BB;&#x201D;&#x3002;</p>
+<p>$$d<em>{12} = \sum</em>{k=1}^n |x_k - y_k|$$</p>
+<h3 id="&#x5207;&#x6BD4;&#x96EA;&#x592B;&#x8DDD;&#x79BB;-Chebyshev-Distance"><a href="#&#x5207;&#x6BD4;&#x96EA;&#x592B;&#x8DDD;&#x79BB;-Chebyshev-Distance" class="headerlink" title="&#x5207;&#x6BD4;&#x96EA;&#x592B;&#x8DDD;&#x79BB;(Chebyshev Distance)"></a>&#x5207;&#x6BD4;&#x96EA;&#x592B;&#x8DDD;&#x79BB;(Chebyshev Distance)</h3><p>&#x56FD;&#x9645;&#x8C61;&#x68CB;&#x4E2D;&#x56FD;&#x738B;&#x8D70;&#x4E00;&#x6B65;&#x80FD;&#x591F;&#x79FB;&#x52A8;&#x5230;&#x76F8;&#x90BB;&#x7684;8&#x4E2A;&#x65B9;&#x683C;&#x4E2D;&#x7684;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x3002;&#x90A3;&#x4E48;&#x56FD;&#x738B;&#x4ECE;&#x683C;&#x5B50;$(x1,y1)$&#x8D70;&#x5230;&#x683C;&#x5B50;$(x2,y2)$&#x6700;&#x5C11;&#x9700;&#x8981;&#x591A;&#x5C11;&#x6B65;&#xFF1F;$max(|x2-x1|, |y2-y1|)$</p>
+<p>$$d<em>{12} = \max</em>{k} (|x_k - y_k|)$$</p>
+<p>$$d<em>{12} = \lim</em>{x \to \infty} (\sum_{k=1}^n |x_k - y_k|^x)^{1/x}$$</p>
+<h3 id="&#x95F5;&#x53EF;&#x592B;&#x65AF;&#x57FA;&#x8DDD;&#x79BB;-Minkowski-Distance"><a href="#&#x95F5;&#x53EF;&#x592B;&#x65AF;&#x57FA;&#x8DDD;&#x79BB;-Minkowski-Distance" class="headerlink" title="&#x95F5;&#x53EF;&#x592B;&#x65AF;&#x57FA;&#x8DDD;&#x79BB;(Minkowski Distance)"></a>&#x95F5;&#x53EF;&#x592B;&#x65AF;&#x57FA;&#x8DDD;&#x79BB;(Minkowski Distance)</h3><p>&#x95F5;&#x6C0F;&#x8DDD;&#x79BB;&#x662F;&#x4E00;&#x7EC4;&#x8DDD;&#x79BB;&#x7684;&#x5B9A;&#x4E49;&#xFF0C;&#x6839;&#x636E;&#x53D8;&#x53C2;&#x6570;&#x7684;&#x4E0D;&#x540C;&#xFF0C;&#x95F5;&#x6C0F;&#x8DDD;&#x79BB;&#x53EF;&#x4EE5;&#x8868;&#x793A;&#x4E00;&#x7C7B;&#x7684;&#x8DDD;&#x79BB;&#xFF1A;</p>
+<ul>
+<li>&#x5F53;$p=1$&#x65F6;&#xFF0C;&#x5C31;&#x662F;&#x66FC;&#x54C8;&#x987F;&#x8DDD;&#x79BB;</li>
+<li>&#x5F53;$p=2$&#x65F6;&#xFF0C;&#x5C31;&#x662F;&#x6B27;&#x6C0F;&#x8DDD;&#x79BB;</li>
+<li>&#x5F53;$p\to \infty$&#x65F6;&#xFF0C;&#x5C31;&#x662F;&#x5207;&#x6BD4;&#x96EA;&#x592B;&#x8DDD;&#x79BB;</li>
+</ul>
+<p>$$d<em>{12} = \sqrt[p]{(\sum</em>{k=1}^n |x_k - y_k|^p)}$$</p>
+<p>&#x95F5;&#x6C0F;&#x8DDD;&#x79BB;(&#x5305;&#x62EC;&#x66FC;&#x54C8;&#x987F;&#x8DDD;&#x79BB;&#x3001;&#x6B27;&#x6C0F;&#x8DDD;&#x79BB;&#x548C;&#x5207;&#x6BD4;&#x96EA;&#x592B;&#x8DDD;&#x79BB;)&#x7684;&#x7F3A;&#x70B9;:</p>
+<p>&#x4E3E;&#x4E2A;&#x4F8B;&#x5B50;&#xFF1A;&#x4E8C;&#x7EF4;&#x6837;&#x672C;(&#x8EAB;&#x9AD8;,&#x4F53;&#x91CD;)&#xFF0C;&#x5176;&#x4E2D;&#x8EAB;&#x9AD8;&#x8303;&#x56F4;&#x662F;150-190&#xFF0C;&#x4F53;&#x91CD;&#x8303;&#x56F4;&#x662F;50-60&#xFF0C;&#x6709;&#x4E09;&#x4E2A;&#x6837;&#x672C;&#xFF1A;a(180,50)&#xFF0C;b(190,50)&#xFF0C;c(180,60)&#x3002;&#x90A3;&#x4E48;a&#x4E0E;b&#x4E4B;&#x95F4;&#x7684;&#x95F5;&#x6C0F;&#x8DDD;&#x79BB;&#xFF08;&#x65E0;&#x8BBA;&#x662F;&#x66FC;&#x54C8;&#x987F;&#x8DDD;&#x79BB;&#x3001;&#x6B27;&#x6C0F;&#x8DDD;&#x79BB;&#x6216;&#x5207;&#x6BD4;&#x96EA;&#x592B;&#x8DDD;&#x79BB;&#xFF09;&#x7B49;&#x4E8E;a&#x4E0E;c&#x4E4B;&#x95F4;&#x7684;&#x95F5;&#x6C0F;&#x8DDD;&#x79BB;&#xFF0C;&#x4F46;&#x662F;&#x8EAB;&#x9AD8;&#x7684;10cm&#x771F;&#x7684;&#x7B49;&#x4EF7;&#x4E8E;&#x4F53;&#x91CD;&#x7684;10kg&#x4E48;&#xFF1F;&#x56E0;&#x6B64;&#x7528;&#x95F5;&#x6C0F;&#x8DDD;&#x79BB;&#x6765;&#x8861;&#x91CF;&#x8FD9;&#x4E9B;&#x6837;&#x672C;&#x95F4;&#x7684;&#x76F8;&#x4F3C;&#x5EA6;&#x5F88;&#x6709;&#x95EE;&#x9898;&#x3002;</p>
+<p>&#x7B80;&#x5355;&#x8BF4;&#x6765;&#xFF0C;&#x95F5;&#x6C0F;&#x8DDD;&#x79BB;&#x7684;&#x7F3A;&#x70B9;&#x4E3B;&#x8981;&#x6709;&#x4E24;&#x4E2A;&#xFF1A;(1)&#x5C06;&#x5404;&#x4E2A;&#x5206;&#x91CF;&#x7684;&#x91CF;&#x7EB2;(scale)&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x201C;&#x5355;&#x4F4D;&#x201D;&#x5F53;&#x4F5C;&#x76F8;&#x540C;&#x7684;&#x770B;&#x5F85;&#x4E86;&#x3002;(2)&#x6CA1;&#x6709;&#x8003;&#x8651;&#x5404;&#x4E2A;&#x5206;&#x91CF;&#x7684;&#x5206;&#x5E03;&#xFF08;&#x671F;&#x671B;&#xFF0C;&#x65B9;&#x5DEE;&#x7B49;)&#x53EF;&#x80FD;&#x662F;&#x4E0D;&#x540C;&#x7684;&#x3002;</p>
+<h3 id="&#x6807;&#x51C6;&#x5316;&#x6B27;&#x6C0F;&#x8DDD;&#x79BB;-Standardized-Euclidean-distance"><a href="#&#x6807;&#x51C6;&#x5316;&#x6B27;&#x6C0F;&#x8DDD;&#x79BB;-Standardized-Euclidean-distance" class="headerlink" title="&#x6807;&#x51C6;&#x5316;&#x6B27;&#x6C0F;&#x8DDD;&#x79BB;(Standardized Euclidean distance)"></a>&#x6807;&#x51C6;&#x5316;&#x6B27;&#x6C0F;&#x8DDD;&#x79BB;(Standardized Euclidean distance)</h3><p><strong>&#x5B9A;&#x4E49;:</strong><br>&#x6807;&#x51C6;&#x5316;&#x6B27;&#x6C0F;&#x8DDD;&#x79BB;&#x662F;&#x9488;&#x5BF9;&#x7B80;&#x5355;&#x6B27;&#x6C0F;&#x8DDD;&#x79BB;&#x7684;&#x7F3A;&#x70B9;&#x800C;&#x4F5C;&#x7684;&#x4E00;&#x79CD;&#x6539;&#x8FDB;&#x65B9;&#x6848;&#x3002;&#x6807;&#x51C6;&#x6B27;&#x6C0F;&#x8DDD;&#x79BB;&#x7684;&#x601D;&#x8DEF;&#xFF1A;&#x65E2;&#x7136;&#x6570;&#x636E;&#x5404;&#x7EF4;&#x5206;&#x91CF;&#x7684;&#x5206;&#x5E03;&#x4E0D;&#x4E00;&#x6837;&#xFF0C;&#x90A3;&#x6211;&#x5148;&#x5C06;&#x5404;&#x4E2A;&#x5206;&#x91CF;&#x90FD;&#x201C;&#x6807;&#x51C6;&#x5316;&#x201D;&#x5230;&#x5747;&#x503C;&#x3001;&#x65B9;&#x5DEE;&#x76F8;&#x7B49;&#x5427;&#x3002;&#x5047;&#x8BBE;&#x6837;&#x672C;&#x96C6;X&#x7684;&#x5747;&#x503C;(mean)&#x4E3A;m&#xFF0C;&#x6807;&#x51C6;&#x5DEE;(standard deviation)&#x4E3A;s&#xFF0C;&#x90A3;&#x4E48;X&#x7684;&#x201C;&#x6807;&#x51C6;&#x5316;&#x53D8;&#x91CF;&#x201D;&#x8868;&#x793A;&#x4E3A;&#xFF1A;<br>$$X^* = \frac {X - m}{s}$$</p>
+<p>&#x6807;&#x51C6;&#x5316;&#x540E;&#x53D8;&#x91CF;&#x7684;&#x6570;&#x5B66;&#x671F;&#x671B;&#x4E3A;0&#xFF0C;&#x65B9;&#x5DEE;&#x4E3A;1</p>
+<p>&#x7ECF;&#x8FC7;&#x7B80;&#x5355;&#x7684;&#x63A8;&#x5BFC;&#x5C31;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x4E24;&#x4E2A;n&#x7EF4;&#x5411;&#x91CF;a&#x4E0E;b&#x95F4;&#x7684;&#x6807;&#x51C6;&#x5316;&#x6B27;&#x6C0F;&#x8DDD;&#x79BB;&#x7684;&#x516C;&#x5F0F;&#xFF1A;<br>$$d<em>{12} = \sqrt{\sum</em>{k=1}^n (\frac {x_k - y_k}{s_k})^2}$$</p>
+<h3 id="&#x9A6C;&#x6C0F;&#x8DDD;&#x79BB;-Mahalanobis-Distance"><a href="#&#x9A6C;&#x6C0F;&#x8DDD;&#x79BB;-Mahalanobis-Distance" class="headerlink" title="&#x9A6C;&#x6C0F;&#x8DDD;&#x79BB;(Mahalanobis Distance)"></a>&#x9A6C;&#x6C0F;&#x8DDD;&#x79BB;(Mahalanobis Distance)</h3><p><strong>&#x5B9A;&#x4E49;:</strong><br>&#x6709;M&#x4E2A;&#x6837;&#x672C;&#x5411;&#x91CF;$X_1$~$X_m$&#xFF0C;&#x534F;&#x65B9;&#x5DEE;&#x77E9;&#x9635;&#x8BB0;&#x4E3A;$S$&#xFF0C;&#x5747;&#x503C;&#x8BB0;&#x4E3A;&#x5411;&#x91CF;$\mu$&#xFF0C;&#x5219;&#x5176;&#x4E2D;&#x6837;&#x672C;&#x5411;&#x91CF;$X$&#x5230;$\mu$&#x7684;&#x9A6C;&#x6C0F;&#x8DDD;&#x79BB;&#x8868;&#x793A;&#x4E3A;&#xFF1A;<br>$$D(X) = \sqrt{(X - \mu)^TS^{-1}(X - \mu)}$$<br>&#x800C;&#x5176;&#x4E2D;&#x5411;&#x91CF;$X_i$&#x4E0E;$X_j$&#x4E4B;&#x95F4;&#x7684;&#x9A6C;&#x6C0F;&#x8DDD;&#x79BB;&#x5B9A;&#x4E49;&#x4E3A;&#xFF1A;<br>$$D(X_i, X_j) = \sqrt{(X_i - X_j)^TS^{-1}(X_i - X_j)}$$<br>&#x82E5;&#x534F;&#x65B9;&#x5DEE;&#x77E9;&#x9635;&#x662F;&#x5355;&#x4F4D;&#x77E9;&#x9635;&#xFF08;&#x5404;&#x4E2A;&#x6837;&#x672C;&#x5411;&#x91CF;&#x4E4B;&#x95F4;&#x72EC;&#x7ACB;&#x540C;&#x5206;&#x5E03;&#xFF09;,&#x5219;&#x516C;&#x5F0F;&#x5C31;&#x6210;&#x4E86;&#xFF1A;<br>$$D(X_i, X_j) = \sqrt{(X_i - X_j)^T(X_i - X_j)}$$<br>&#x4E5F;&#x5C31;&#x662F;&#x6B27;&#x6C0F;&#x8DDD;&#x79BB;&#x4E86;&#x3002;<br>&#x82E5;&#x534F;&#x65B9;&#x5DEE;&#x77E9;&#x9635;&#x662F;&#x5BF9;&#x89D2;&#x77E9;&#x9635;&#xFF0C;&#x516C;&#x5F0F;&#x53D8;&#x6210;&#x4E86;&#x6807;&#x51C6;&#x5316;&#x6B27;&#x6C0F;&#x8DDD;&#x79BB;&#x3002;</p>
+<p><strong>&#x4F18;&#x7F3A;&#x70B9;&#xFF1A;</strong><br>&#x91CF;&#x7EB2;&#x65E0;&#x5173;&#xFF0C;&#x6392;&#x9664;&#x53D8;&#x91CF;&#x4E4B;&#x95F4;&#x7684;&#x76F8;&#x5173;&#x6027;&#x7684;&#x5E72;&#x6270;&#x3002;</p>
+<h2 id="&#x4F59;&#x5F26;&#x76F8;&#x4F3C;&#x5EA6;"><a href="#&#x4F59;&#x5F26;&#x76F8;&#x4F3C;&#x5EA6;" class="headerlink" title="&#x4F59;&#x5F26;&#x76F8;&#x4F3C;&#x5EA6;"></a>&#x4F59;&#x5F26;&#x76F8;&#x4F3C;&#x5EA6;</h2><p>&#x4E24;&#x4E2A;n&#x7EF4;&#x6837;&#x672C;&#x70B9;$a(x_1,x_2,&#x2026;,x_n)$&#x4E0E;$b(y_1,y_2,&#x2026;,y_n)$&#x7684;&#x5939;&#x89D2;&#x4F59;&#x5F26;<br>$$cos(\theta) = \frac {a \cdot b} {|a||b|} $$</p>
+<p>$$cos(\theta) = \frac {\sum_{k=1}^n x_k y<em>k} {\sqrt{\sum</em>{k=1}^n {x<em>k}^2} \sqrt{\sum</em>{k=1}^n {y_k}^2}} $$</p>
+<p>&#x5939;&#x89D2;&#x4F59;&#x5F26;&#x53D6;&#x503C;&#x8303;&#x56F4;&#x4E3A;[-1,1]&#x3002;&#x5939;&#x89D2;&#x4F59;&#x5F26;&#x8D8A;&#x5927;&#x8868;&#x793A;&#x4E24;&#x4E2A;&#x5411;&#x91CF;&#x7684;&#x5939;&#x89D2;&#x8D8A;&#x5C0F;&#xFF0C;&#x5939;&#x89D2;&#x4F59;&#x5F26;&#x8D8A;&#x5C0F;&#x8868;&#x793A;&#x4E24;&#x5411;&#x91CF;&#x7684;&#x5939;&#x89D2;&#x8D8A;&#x5927;&#x3002;&#x5F53;&#x4E24;&#x4E2A;&#x5411;&#x91CF;&#x7684;&#x65B9;&#x5411;&#x91CD;&#x5408;&#x65F6;&#x5939;&#x89D2;&#x4F59;&#x5F26;&#x53D6;&#x6700;&#x5927;&#x503C;1&#xFF0C;&#x5F53;&#x4E24;&#x4E2A;&#x5411;&#x91CF;&#x7684;&#x65B9;&#x5411;&#x5B8C;&#x5168;&#x76F8;&#x53CD;&#x5939;&#x89D2;&#x4F59;&#x5F26;&#x53D6;&#x6700;&#x5C0F;&#x503C;-1</p>
+<h2 id="&#x76F8;&#x5173;&#x7CFB;&#x6570;-Correlation-coefficient-&#x4E0E;&#x76F8;&#x5173;&#x8DDD;&#x79BB;-Correlation-distance"><a href="#&#x76F8;&#x5173;&#x7CFB;&#x6570;-Correlation-coefficient-&#x4E0E;&#x76F8;&#x5173;&#x8DDD;&#x79BB;-Correlation-distance" class="headerlink" title="&#x76F8;&#x5173;&#x7CFB;&#x6570;(Correlation coefficient)&#x4E0E;&#x76F8;&#x5173;&#x8DDD;&#x79BB;(Correlation distance)"></a>&#x76F8;&#x5173;&#x7CFB;&#x6570;(Correlation coefficient)&#x4E0E;&#x76F8;&#x5173;&#x8DDD;&#x79BB;(Correlation distance)</h2><ul>
+<li><p>&#x76F8;&#x5173;&#x7CFB;&#x6570;&#x7684;&#x5B9A;&#x4E49;<br>$$\rho_{XY} = \frac {Cov(X, Y)} {\sqrt {D(X)} \sqrt{D(Y)}}$$<br>&#x76F8;&#x5173;&#x7CFB;&#x6570;&#x662F;&#x8861;&#x91CF;&#x968F;&#x673A;&#x53D8;&#x91CF;X&#x4E0E;Y&#x76F8;&#x5173;&#x7A0B;&#x5EA6;&#x7684;&#x4E00;&#x79CD;&#x65B9;&#x6CD5;&#xFF0C;&#x76F8;&#x5173;&#x7CFB;&#x6570;&#x7684;&#x53D6;&#x503C;&#x8303;&#x56F4;&#x662F;[-1,1]&#x3002;&#x76F8;&#x5173;&#x7CFB;&#x6570;&#x7684;&#x7EDD;&#x5BF9;&#x503C;&#x8D8A;&#x5927;&#xFF0C;&#x5219;&#x8868;&#x660E;X&#x4E0E;Y&#x76F8;&#x5173;&#x5EA6;&#x8D8A;&#x9AD8;&#x3002;&#x5F53;X&#x4E0E;Y&#x7EBF;&#x6027;&#x76F8;&#x5173;&#x65F6;&#xFF0C;&#x76F8;&#x5173;&#x7CFB;&#x6570;&#x53D6;&#x503C;&#x4E3A;1&#xFF08;&#x6B63;&#x7EBF;&#x6027;&#x76F8;&#x5173;&#xFF09;&#x6216;-1&#xFF08;&#x8D1F;&#x7EBF;&#x6027;&#x76F8;&#x5173;&#xFF09;</p>
+</li>
+<li><p>&#x76F8;&#x5173;&#x8DDD;&#x79BB;&#x7684;&#x5B9A;&#x4E49;<br>$$D<em>{XY} = 1 - \rho</em>{XY}$$</p>
+<h2 id="&#x76AE;&#x5C14;&#x900A;&#x76F8;&#x5173;&#x7CFB;&#x6570;"><a href="#&#x76AE;&#x5C14;&#x900A;&#x76F8;&#x5173;&#x7CFB;&#x6570;" class="headerlink" title="&#x76AE;&#x5C14;&#x900A;&#x76F8;&#x5173;&#x7CFB;&#x6570;"></a>&#x76AE;&#x5C14;&#x900A;&#x76F8;&#x5173;&#x7CFB;&#x6570;</h2></li>
+</ul>
+<h2 id="Jaccard&#x76F8;&#x4F3C;&#x5EA6;"><a href="#Jaccard&#x76F8;&#x4F3C;&#x5EA6;" class="headerlink" title="Jaccard&#x76F8;&#x4F3C;&#x5EA6;"></a>Jaccard&#x76F8;&#x4F3C;&#x5EA6;</h2><ul>
+<li><p>Jaccard&#x76F8;&#x4F3C;&#x7CFB;&#x6570;<br>&#x4E24;&#x4E2A;&#x96C6;&#x5408;A&#x548C;B&#x7684;&#x4EA4;&#x96C6;&#x5143;&#x7D20;&#x5728;A&#xFF0C;B&#x7684;&#x5E76;&#x96C6;&#x4E2D;&#x6240;&#x5360;&#x7684;&#x6BD4;&#x4F8B;&#xFF0C;&#x79F0;&#x4E3A;&#x4E24;&#x4E2A;&#x96C6;&#x5408;&#x7684;Jaccard&#x76F8;&#x4F3C;&#x7CFB;&#x6570;&#xFF0C;&#x7528;&#x7B26;&#x53F7;J(A,B)&#x8868;&#x793A;<br>$$J(A,B) = \frac {|A \cap B|} {|A \cup B|}$$</p>
+</li>
+<li><p>Jaccard&#x8DDD;&#x79BB;<br>&#x4E0E;Jaccard&#x76F8;&#x4F3C;&#x7CFB;&#x6570;&#x76F8;&#x53CD;&#x7684;&#x6982;&#x5FF5;&#x662F;Jaccard&#x8DDD;&#x79BB;(Jaccard distance)&#xFF0C;&#x7528;&#x4E24;&#x4E2A;&#x96C6;&#x5408;&#x4E2D;&#x4E0D;&#x540C;&#x5143;&#x7D20;&#x5360;&#x6240;&#x6709;&#x5143;&#x7D20;&#x7684;&#x6BD4;&#x4F8B;&#x6765;&#x8861;&#x91CF;&#x4E24;&#x4E2A;&#x96C6;&#x5408;&#x7684;&#x533A;&#x5206;&#x5EA6;<br>$$J_{\delta}(A,B) = 1 - J(A,B) = \frac {|A \cup B| - |A \cap B|} {|A \cup B|}$$</p>
+</li>
+<li><p>&#x5E94;&#x7528;<br>&#x8861;&#x91CF;&#x6837;&#x672C;&#x7684;&#x76F8;&#x4F3C;&#x5EA6;</p>
+</li>
+</ul>
+<h2 id="Tanimoto"><a href="#Tanimoto" class="headerlink" title="Tanimoto"></a>Tanimoto</h2><h2 id="&#x4FE1;&#x606F;&#x71B5;"><a href="#&#x4FE1;&#x606F;&#x71B5;" class="headerlink" title="&#x4FE1;&#x606F;&#x71B5;"></a>&#x4FE1;&#x606F;&#x71B5;</h2><p>&#x4FE1;&#x606F;&#x71B5;&#x662F;&#x8861;&#x91CF;&#x5206;&#x5E03;&#x7684;&#x6DF7;&#x4E71;&#x7A0B;&#x5EA6;&#x6216;&#x5206;&#x6563;&#x7A0B;&#x5EA6;&#x7684;&#x4E00;&#x79CD;&#x5EA6;&#x91CF;&#x3002;&#x5206;&#x5E03;&#x8D8A;&#x5206;&#x6563;(&#x6216;&#x8005;&#x8BF4;&#x5206;&#x5E03;&#x8D8A;&#x5E73;&#x5747;)&#xFF0C;&#x4FE1;&#x606F;&#x71B5;&#x5C31;&#x8D8A;&#x5927;&#x3002;&#x5206;&#x5E03;&#x8D8A;&#x6709;&#x5E8F;&#xFF08;&#x6216;&#x8005;&#x8BF4;&#x5206;&#x5E03;&#x8D8A;&#x96C6;&#x4E2D;&#xFF09;&#xFF0C;&#x4FE1;&#x606F;&#x71B5;&#x5C31;&#x8D8A;&#x5C0F;<br>&#x516C;&#x5F0F;&#xFF1A;<br>$$Entropy(X) = \sum_{i=1}^n -p_i log_2 p_i$$</p>
+<p>&#x53C2;&#x6570;&#xFF1A;<br>$n$&#xFF1A;&#x6837;&#x672C;&#x96C6;X&#x7684;&#x5206;&#x7C7B;&#x6570;<br>$p_i$&#xFF1A;X&#x4E2D;&#x7B2C;i&#x7C7B;&#x5143;&#x7D20;&#x51FA;&#x73B0;&#x7684;&#x6982;&#x7387;</p>
+<p>&#x4FE1;&#x606F;&#x71B5;&#x8D8A;&#x5927;&#x8868;&#x660E;&#x6837;&#x672C;&#x96C6;S&#x5206;&#x7C7B;&#x8D8A;&#x5206;&#x6563;&#xFF0C;&#x4FE1;&#x606F;&#x71B5;&#x8D8A;&#x5C0F;&#x5219;&#x8868;&#x660E;&#x6837;&#x672C;&#x96C6;X&#x5206;&#x7C7B;&#x8D8A;&#x96C6;&#x4E2D;&#x3002;&#x5F53;S&#x4E2D;n&#x4E2A;&#x5206;&#x7C7B;&#x51FA;&#x73B0;&#x7684;&#x6982;&#x7387;&#x4E00;&#x6837;&#x5927;&#x65F6;&#xFF08;&#x90FD;&#x662F;1/n&#xFF09;&#xFF0C;&#x4FE1;&#x606F;&#x71B5;&#x53D6;&#x6700;&#x5927;&#x503C;log2(n)&#xFF1B;&#x5F53;X&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x5206;&#x7C7B;&#x65F6;&#xFF0C;&#x4FE1;&#x606F;&#x71B5;&#x53D6;&#x6700;&#x5C0F;&#x503C;0</p>
+<h2 id="&#x6C49;&#x660E;&#x8DDD;&#x79BB;-Hamming-distance"><a href="#&#x6C49;&#x660E;&#x8DDD;&#x79BB;-Hamming-distance" class="headerlink" title="&#x6C49;&#x660E;&#x8DDD;&#x79BB;(Hamming distance)"></a>&#x6C49;&#x660E;&#x8DDD;&#x79BB;(Hamming distance)</h2><p><strong>&#x5B9A;&#x4E49;:</strong><br>&#x4E24;&#x4E2A;&#x7B49;&#x957F;&#x5B57;&#x7B26;&#x4E32;s1&#x4E0E;s2&#x4E4B;&#x95F4;&#x7684;&#x6C49;&#x660E;&#x8DDD;&#x79BB;&#x5B9A;&#x4E49;&#x4E3A;&#x5C06;&#x5176;&#x4E2D;&#x4E00;&#x4E2A;&#x53D8;&#x4E3A;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x6240;&#x9700;&#x8981;&#x4F5C;&#x7684;&#x6700;&#x5C0F;&#x66FF;&#x6362;&#x6B21;&#x6570;&#x3002;&#x4F8B;&#x5982;&#x5B57;&#x7B26;&#x4E32;&#x201C;1111&#x201D;&#x4E0E;&#x201C;1001&#x201D;&#x4E4B;&#x95F4;&#x7684;&#x6C49;&#x660E;&#x8DDD;&#x79BB;&#x4E3A;2</p>
+<p><strong>&#x5E94;&#x7528;&#xFF1A;</strong><br>&#x4FE1;&#x606F;&#x7F16;&#x7801;&#xFF08;&#x4E3A;&#x4E86;&#x589E;&#x5F3A;&#x5BB9;&#x9519;&#x6027;&#xFF0C;&#x5E94;&#x4F7F;&#x5F97;&#x7F16;&#x7801;&#x95F4;&#x7684;&#x6700;&#x5C0F;&#x6C49;&#x660E;&#x8DDD;&#x79BB;&#x5C3D;&#x53EF;&#x80FD;&#x5927;&#xFF09;</p>
+<p><a href="http://www.cnblogs.com/heaad/archive/2011/03/08/1977733.html" target="_blank" rel="external"></a></p>
+<p><a href="http://www.jinglingshu.org/?p=3275" target="_blank" rel="external"></a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/相似度/" rel="tag">#相似度</a>
+          
+            <a href="/tags/距离/" rel="tag">#距离</a>
+          
+            <a href="/tags/相关系数/" rel="tag">#相关系数</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/13/pycharm远程配置问题/" rel="next" title="pycharm远程配置问题">
+                <i class="fa fa-chevron-left"></i> pycharm远程配置问题
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/09/19/similarity-algorithm/"
+           data-title="相似度算法比较" data-url="http://yoursite.com/2016/09/19/similarity-algorithm/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="大葱丛" />
+          <p class="site-author-name" itemprop="name">大葱丛</p>
+          <p class="site-description motion-element" itemprop="description">人的一切痛苦，本质上都是对自己的无能的愤怒</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#相似度算法比较"><span class="nav-number">1.</span> <span class="nav-text">相似度算法比较</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#距离相似度"><span class="nav-number">1.1.</span> <span class="nav-text">距离相似度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#欧氏距离-Euclidean-Distance"><span class="nav-number">1.1.1.</span> <span class="nav-text">欧氏距离(Euclidean Distance)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#曼哈顿距离-Manhattan-Distance"><span class="nav-number">1.1.2.</span> <span class="nav-text">曼哈顿距离(Manhattan Distance)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#切比雪夫距离-Chebyshev-Distance"><span class="nav-number">1.1.3.</span> <span class="nav-text">切比雪夫距离(Chebyshev Distance)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闵可夫斯基距离-Minkowski-Distance"><span class="nav-number">1.1.4.</span> <span class="nav-text">闵可夫斯基距离(Minkowski Distance)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标准化欧氏距离-Standardized-Euclidean-distance"><span class="nav-number">1.1.5.</span> <span class="nav-text">标准化欧氏距离(Standardized Euclidean distance)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#马氏距离-Mahalanobis-Distance"><span class="nav-number">1.1.6.</span> <span class="nav-text">马氏距离(Mahalanobis Distance)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#余弦相似度"><span class="nav-number">1.2.</span> <span class="nav-text">余弦相似度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关系数-Correlation-coefficient-与相关距离-Correlation-distance"><span class="nav-number">1.3.</span> <span class="nav-text">相关系数(Correlation coefficient)与相关距离(Correlation distance)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#皮尔逊相关系数"><span class="nav-number">1.4.</span> <span class="nav-text">皮尔逊相关系数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jaccard相似度"><span class="nav-number">1.5.</span> <span class="nav-text">Jaccard相似度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tanimoto"><span class="nav-number">1.6.</span> <span class="nav-text">Tanimoto</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信息熵"><span class="nav-number">1.7.</span> <span class="nav-text">信息熵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汉明距离-Hamming-distance"><span class="nav-number">1.8.</span> <span class="nav-text">汉明距离(Hamming distance)</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大葱丛</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xwydq"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+  
+
+  
+
+</body>
+</html>
