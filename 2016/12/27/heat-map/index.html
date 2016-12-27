@@ -1,0 +1,666 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="REmap,经纬度,gif," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="&amp;#x60F3;&amp;#x76F4;&amp;#x89C2;&amp;#x4E86;&amp;#x89E3;&amp;#x516C;&amp;#x53F8;&amp;#x4F1A;&amp;#x5458;&amp;#x968F;&amp;#x65F6;&amp;#x95F4;&amp;#x7684;&amp;#x5206;&amp;#x5E03;&amp;#x53D8;&amp;#x5316;&amp;#xFF0C;&amp;#x73B0;&amp;#x6709;&amp;#x6570;&amp;#x636E;&amp;#x5305;&amp;#x542B;&amp;#x4F1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="人群分布的热力地图展示">
+<meta property="og:url" content="http://yoursite.com/2016/12/27/heat-map/index.html">
+<meta property="og:site_name" content="飞舞的尘埃">
+<meta property="og:description" content="&amp;#x60F3;&amp;#x76F4;&amp;#x89C2;&amp;#x4E86;&amp;#x89E3;&amp;#x516C;&amp;#x53F8;&amp;#x4F1A;&amp;#x5458;&amp;#x968F;&amp;#x65F6;&amp;#x95F4;&amp;#x7684;&amp;#x5206;&amp;#x5E03;&amp;#x53D8;&amp;#x5316;&amp;#xFF0C;&amp;#x73B0;&amp;#x6709;&amp;#x6570;&amp;#x636E;&amp;#x5305;&amp;#x542B;&amp;#x4F1">
+<meta property="og:image" content="http://yoursite.com/2016/12/27/heat-map/Rplot_069.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/27/heat-map/sim.gif">
+<meta property="og:updated_time" content="2016-12-27T09:13:47.323Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="人群分布的热力地图展示">
+<meta name="twitter:description" content="&amp;#x60F3;&amp;#x76F4;&amp;#x89C2;&amp;#x4E86;&amp;#x89E3;&amp;#x516C;&amp;#x53F8;&amp;#x4F1A;&amp;#x5458;&amp;#x968F;&amp;#x65F6;&amp;#x95F4;&amp;#x7684;&amp;#x5206;&amp;#x5E03;&amp;#x53D8;&amp;#x5316;&amp;#xFF0C;&amp;#x73B0;&amp;#x6709;&amp;#x6570;&amp;#x636E;&amp;#x5305;&amp;#x542B;&amp;#x4F1">
+<meta name="twitter:image" content="http://yoursite.com/2016/12/27/heat-map/Rplot_069.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/12/27/heat-map/"/>
+
+  <title> 人群分布的热力地图展示 | 飞舞的尘埃 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">飞舞的尘埃</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                人群分布的热力地图展示
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-27T14:22:18+08:00" content="2016-12-27">
+              2016-12-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/可视化/" itemprop="url" rel="index">
+                    <span itemprop="name">可视化</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/27/heat-map/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/27/heat-map/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>&#x60F3;&#x76F4;&#x89C2;&#x4E86;&#x89E3;&#x516C;&#x53F8;&#x4F1A;&#x5458;&#x968F;&#x65F6;&#x95F4;&#x7684;&#x5206;&#x5E03;&#x53D8;&#x5316;&#xFF0C;&#x73B0;&#x6709;&#x6570;&#x636E;&#x5305;&#x542B;&#x4F1A;&#x5458;&#x7684;&#x5730;&#x5740;&#x3001;&#x4F1A;&#x5458;&#x52A0;&#x5165;&#x65F6;&#x95F4;&#xFF0C;&#x60F3;&#x6839;&#x636E;&#x8FD9;&#x4E9B;&#x6570;&#x636E;&#x5728;&#x5730;&#x56FE;&#x4E0A;&#x663E;&#x793A;&#x4F1A;&#x5458;&#x5206;&#x5E03;&#x70ED;&#x529B;&#x56FE;&#x7684;&#x53D8;&#x5316;</p>
+</blockquote>
+<h3 id="&#x5730;&#x5740;&#x6E05;&#x6D17;">&#x5730;&#x5740;&#x6E05;&#x6D17;</h3>
+<p>&#x5C06;&#x4F1A;&#x5458;&#x5730;&#x5740;&#x8F6C;&#x5316;&#x4E3A;&#x5177;&#x4F53;&#x7684;&#x7ECF;&#x7EAC;&#x5EA6;&#x6570;&#x636E;&#xFF0C;&#x76F4;&#x63A5;&#x89C6;&#x540C;&#x767E;&#x5EA6;&#x5730;&#x56FE;API&#x63A5;&#x53E3;&#x8FDB;&#x884C;&#x8F6C;&#x6362; &#x6216;&#x8005;&#x4F7F;&#x7528;<code>R package baidumap</code>&#xFF0C;&#x6700;&#x7EC8;&#x4E5F;&#x662F;&#x8C03;&#x7528;&#x767E;&#x5EA6;&#x5730;&#x56FE;API &#x5982;&#x679C;&#x9700;&#x8981;&#x8F6C;&#x5316;&#x7684;&#x5730;&#x5740;&#x6570;&#x91CF;&#x8FC7;&#x591A;&#xFF0C;&#x53EF;&#x4EE5;&#x8003;&#x8651;&#x7533;&#x8BF7;&#x767E;&#x5EA6;&#x5F00;&#x53D1;&#x8005;&#x6743;&#x9650;&#x589E;&#x52A0;&#x8C03;&#x7528;&#x6B21;&#x6570;</p>
+<p>&#x672C;&#x6587;&#x4E2D;&#x7533;&#x8BF7;&#x5F00;&#x53D1;&#x8005;&#x6743;&#x9650;&#x540E;&#x81EA;&#x5199;R&#x4EE3;&#x7801;&#x6765;&#x5B9E;&#x73B0;&#x5730;&#x5740;&#x7ECF;&#x7EAC;&#x5EA6;&#x7684;&#x8F6C;&#x5316; &#x4EE3;&#x7801;&#x89C1;<a href="https://github.com/xwydq/heat-map/blob/master/tools_func_loc.R" target="_blank" rel="external"><code>tools_func_loc.R</code></a></p>
+<h3 id="&#x6570;&#x636E;&#x6574;&#x7406;">&#x6570;&#x636E;&#x6574;&#x7406;</h3>
+<p>&#x6574;&#x7406;&#x753B;&#x56FE;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x7684;&#x6570;&#x636E; &#x4EE3;&#x7801;&#x89C1;<a href="https://github.com/xwydq/heat-map/blob/master/dat_pro.R" target="_blank" rel="external"><code>dat_pro.R</code></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">###############################</div><div class="line">## &#x9700;&#x6C42;&#xFF1A;</div><div class="line"># &#x52A8;&#x6001;&#x5C55;&#x73B0;&#x968F;&#x65F6;&#x95F4;&#x53D8;&#x5316;&#x516C;&#x53F8;&#x4E1A;&#x52A1;&#xFF08;&#x4F1A;&#x5458;&#xFF09;&#x5206;&#x5E03;&#x7684;&#x70ED;&#x529B;&#x56FE;</div><div class="line"># 1&#xFF1B;&#x7D2F;&#x79EF;&#x70ED;&#x529B;&#x56FE;&#xFF08;&#x4F1A;&#x5458;&#x8D8A;&#x6765;&#x8D8A;&#x591A;&#xFF09;</div><div class="line"># 2&#xFF1B;&#x6309;&#x7167;&#x67D0;&#x4E2A;&#x65F6;&#x95F4;&#x6BB5;&#x63A8;&#x8FDB;&#x7684;&#x70ED;&#x529B;&#x56FE;&#xFF08;&#x6309;&#x6708;&#x65B0;&#x589E;&#x4F1A;&#x5458;&#x7684;&#x5206;&#x5E03;&#x60C5;&#x51B5;&#xFF09;</div><div class="line"></div><div class="line">options(stringsAsFactors=FALSE, scipen=10, digits=4)</div><div class="line">library(readxl)</div><div class="line">library(dplyr)</div><div class="line">library(lubridate)</div><div class="line">library(stringr)</div><div class="line">library(REmap)</div><div class="line">library(animation)</div><div class="line">library(png)</div><div class="line"></div><div class="line">setwd(&quot;~/R_test/remap&quot;)</div><div class="line"></div><div class="line">## &#x5220;&#x9664;&#x4E34;&#x65F6;&#x6587;&#x4EF6;&#x4E2D;&#x7684;html</div><div class="line"># remap&#x5305;&#x5C06;&#x751F;&#x6210;&#x7684;html&#x6587;&#x4EF6;&#x4FDD;&#x5B58;&#x5728;&#x4E34;&#x65F6;&#x76EE;&#x5F55;&#x4E0B;</div><div class="line"># &#x76EE;&#x524D;&#x6CA1;&#x6709;&#x627E;&#x5230;&#x4FEE;&#x6539;&#x4FDD;&#x5B58;&#x8DEF;&#x5F84;&#x7684;&#x65B9;&#x6CD5;</div><div class="line">tdir = tempdir()</div><div class="line"></div><div class="line">htmlfile = list.files(tdir)</div><div class="line"></div><div class="line">for (i in htmlfile) {</div><div class="line">  if(grepl(&quot;html&quot;, i)){</div><div class="line">    system(paste0(&quot;rm &quot;, file.path(tdir, i)))</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line">## &#x6570;&#x636E;&#x83B7;&#x53D6;</div><div class="line"># &#x5305;&#x542B;&#x4F1A;&#x5458;&#x7ECF;&#x7EAC;&#x5EA6;&#x4EE5;&#x53CA;&#x52A0;&#x5165;&#x65F6;&#x95F4;</div><div class="line">userdat &lt;- read.csv(&quot;userdat.csv&quot;)</div><div class="line">head(userdat)</div><div class="line"># TIME_IN COUNTRY       CITY     ADDRESS_CLEAN   LAT   LNG</div><div class="line"># 1 2015-05-11 13:19:11    &#x7F8E;&#x56FD; &#x52A0;&#x5229;&#x798F;&#x5C3C;&#x4E9A; &#x7F8E;&#x56FD;%20&#x52A0;&#x5229;&#x798F;&#x5C3C;&#x4E9A; 40.68 122.3</div><div class="line"># 2 2015-05-11 14:48:50    &#x4E2D;&#x56FD;     &#x6DF1;&#x5733;&#x5E02;     &#x4E2D;&#x56FD;%20&#x6DF1;&#x5733;&#x5E02; 22.55 114.0</div><div class="line"># 3 2015-05-11 14:59:59    &#x4E2D;&#x56FD;     &#x6DF1;&#x5733;&#x5E02;     &#x4E2D;&#x56FD;%20&#x6DF1;&#x5733;&#x5E02; 22.55 114.0</div><div class="line"># 4 2015-05-11 16:22:41    &#x4E2D;&#x56FD;     &#x82CF;&#x5DDE;&#x5E02;     &#x4E2D;&#x56FD;%20&#x82CF;&#x5DDE;&#x5E02; 31.32 120.6</div><div class="line"># 5 2015-05-11 17:19:52    &#x4E2D;&#x56FD;     &#x5357;&#x4EAC;&#x5E02;     &#x4E2D;&#x56FD;%20&#x5357;&#x4EAC;&#x5E02; 32.06 118.8</div><div class="line"># 6 2015-05-11 17:40:49    &#x4E2D;&#x56FD;     &#x4E0A;&#x6D77;&#x5E02;     &#x4E2D;&#x56FD;%20&#x4E0A;&#x6D77;&#x5E02; 31.25 121.5</div><div class="line"></div><div class="line"></div><div class="line"># &#x56FD;&#x5185;&#x6570;&#x636E;&#x6574;&#x7406;-&#x56FD;&#x5916;&#x6570;&#x636E;&#x70B9;&#x592A;&#x5C11;</div><div class="line">chinaUser &lt;- userdat %&gt;%</div><div class="line">  filter(COUNTRY == &quot;&#x4E2D;&#x56FD;&quot;) %&gt;%</div><div class="line">  arrange(TIME_IN) %&gt;%</div><div class="line">  mutate(rn=1:n())</div></pre></td></tr></table></figure>
+<h3 id="&#x4F7F;&#x7528;remap&#x751F;&#x6210;&#x70ED;&#x529B;&#x56FE;&#x7684;html&#x6587;&#x4EF6;">&#x4F7F;&#x7528;<code>REmap</code>&#x751F;&#x6210;&#x70ED;&#x529B;&#x56FE;&#x7684;<code>html</code>&#x6587;&#x4EF6;</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">## &#x6309;&#x7167;&#x5386;&#x53F2;&#x65F6;&#x95F4;&#x7EBF;&#x751F;&#x6210;html&#x7684;&#x5730;&#x56FE;&#x6587;&#x4EF6;&#xFF08;&#x4F9D;&#x6B21;&#x589E;&#x52A0;&#x6570;&#x636E;&#xFF09;</div><div class="line">for (i in seq(10, 690, 10)) {</div><div class="line">  chinaCityNum &lt;- chinaUser %&gt;%</div><div class="line">    filter(rn &lt; i) %&gt;%</div><div class="line">    group_by(COUNTRY, CITY, LNG, LAT) %&gt;%</div><div class="line">    summarise(num=n()) %&gt;%</div><div class="line">    as.data.frame()</div><div class="line">  </div><div class="line">  ## &#x70ED;&#x529B;&#x56FE;</div><div class="line">  heatmap = chinaCityNum %&gt;%</div><div class="line">    ungroup() %&gt;%</div><div class="line">    select(LNG, LAT, num)</div><div class="line">  names(heatmap) &lt;- c(&quot;lon&quot;, &quot;lat&quot;, &quot;prob&quot;)</div><div class="line">  out=remapH(heatmap,minAlpha = 0.4, title = &quot;&#x56FD;&#x5185;&#x5206;&#x5E03;&#x70ED;&#x529B;&#x56FE;&quot;)</div><div class="line">  # &#x4E0D;&#x80FD;&#x9ED8;&#x8BA4;&#x53D6;&#x6D88;&#x8FD9;&#x4E2A;&#x5F39;&#x7A97;</div><div class="line">  plot(out)</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line">## &#x5C06;&#x751F;&#x6210;&#x7684;js&#x6587;&#x4EF6;&#x548C;html&#x6587;&#x4EF6;&#x7684;&#x70ED;&#x529B;&#x56FE;&#x590D;&#x5236;&#x5230;&#x6307;&#x5B9A;&#x4F4D;&#x7F6E;&#x65B9;&#x4FBF;&#x540E;&#x7EED;&#x64CD;&#x4F5C;</div><div class="line">htmlfile = list.files(tdir)</div><div class="line">system(paste0(&quot;cp -r &quot;, file.path(tdir, &quot;js&quot;), &quot; &quot;, &quot;/home/xuwy/R_test/remap/html&quot;))</div><div class="line"></div><div class="line">for (i in htmlfile) {</div><div class="line">  if(grepl(&quot;html&quot;, i)){</div><div class="line">    system(paste0(&quot;cp &quot;, file.path(tdir, i), &quot; &quot;, &quot;/home/xuwy/R_test/remap/html&quot;))</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
+<p><a href="https://github.com/xwydq/heat-map/blob/master/html/ID_20161227130305_833633.html" target="_blank" rel="external"><code>html&#x6587;&#x4EF6;&#x793A;&#x4F8B;</code></a></p>
+<h3 id="html&#x6587;&#x4EF6;&#x8F6C;&#x4E3A;png&#x56FE;&#x7247;"><code>html</code>&#x6587;&#x4EF6;&#x8F6C;&#x4E3A;<code>png</code>&#x56FE;&#x7247;</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">## html&#x6587;&#x4EF6;&#x8F6C;&#x5316;&#x4E3A;png&#x56FE;&#x7247;-phantomjs</div><div class="line"># &#x751F;&#x6210;html&#x6587;&#x4EF6;&#x4E0E;png&#x6587;&#x4EF6;&#x540D;&#x7684;&#x5BF9;&#x7167;&#x8868;</div><div class="line">htmlfile = list.files(&quot;~/R_test/remap/html&quot;)</div><div class="line">htmlfile = htmlfile[grepl(&quot;html&quot;, htmlfile)]</div><div class="line"></div><div class="line">pngfiledf = data.frame(htmlfile = htmlfile)</div><div class="line">pngfiledf = pngfiledf %&gt;%</div><div class="line">  arrange(htmlfile) %&gt;%</div><div class="line">  mutate(rn=sprintf(&quot;%03d&quot;, 1:n())) %&gt;%</div><div class="line">  mutate(pngfile=paste0(&quot;Rplot_&quot;, rn, &quot;.png&quot;))</div><div class="line"></div><div class="line"># &#x4F7F;&#x7528;phantomjs&#x5C06;html&#x8F6C;&#x5316;&#x4E3A;png</div><div class="line">for (i in 1:nrow(pngfiledf)) {</div><div class="line">  htmlnm = pngfiledf$htmlfile[i]</div><div class="line">  htmlpath = file.path(getwd(), &quot;html&quot;, htmlnm)</div><div class="line">  </div><div class="line">  pngnm = pngfiledf$pngfile[i]</div><div class="line">  pngpath = file.path(getwd(), &quot;png&quot;, pngnm)</div><div class="line">  </div><div class="line">  picout = paste0(&quot;var page = require(&apos;webpage&apos;).create();\n</div><div class="line">                  page.viewportSize = { width: 1280, height: 800 };\n</div><div class="line">                  page.open(&apos;&quot;, htmlpath, &quot;&apos;, function() {\n</div><div class="line">                  window.setTimeout(function () {\n</div><div class="line">                  page.render(&apos;&quot;, pngpath, &quot;&apos;);\n</div><div class="line">                  phantom.exit();\n</div><div class="line">                  }, 100);\n</div><div class="line">                  });\n&quot;)</div><div class="line">  cat(picout, file=&quot;render.js&quot;)</div><div class="line">  </div><div class="line">  system(&quot;/usr/local/src/phantomjs-2.1.1-linux-x86_64/bin/phantomjs --ignore-ssl-errors=true render.js&quot;)</div><div class="line">}</div></pre></td></tr></table></figure>
+<p><a href="https://github.com/xwydq/heat-map/blob/master/png/Rplot_069.png" target="_blank" rel="external"><code>html&#x6587;&#x4EF6;&#x8F6C;&#x4E3A;png&#x56FE;&#x7247;&#x793A;&#x4F8B;</code></a> <img src="/2016/12/27/heat-map/Rplot_069.png"></p>
+<h3 id="png&#x56FE;&#x7247;&#x5408;&#x5E76;&#x8F6C;&#x5316;&#x4E3A;&#x52A8;&#x56FE;gif"><code>png</code>&#x56FE;&#x7247;&#x5408;&#x5E76;&#x8F6C;&#x5316;&#x4E3A;&#x52A8;&#x56FE;<code>gif</code></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">## &#x5236;&#x4F5C;gif</div><div class="line"># &#x4F7F;&#x7528;linux&#x547D;&#x4EE4;convert&#x76F4;&#x63A5;&#x5C06;png&#x8F6C;&#x5316;&#x4E3A;gif</div><div class="line">system(&quot;convert -delay 20 ~/R_test/remap/png/*.png ~/R_test/remap/png/sim.gif&quot;)</div><div class="line"></div><div class="line"># &#x4F7F;&#x7528;animation&#x5305;&#x8FDB;&#x884C;&#x8F6C;&#x5316;</div><div class="line"># ani.options(convert = &apos;C:\\Program Files\\ImageMagick-6.9.1-Q16\\convert.exe&apos;)</div><div class="line">im.convert(files = file.path(&quot;png&quot;, pngfiledf$pngfile), </div><div class="line">           output = &quot;hmap.gif&quot;)</div></pre></td></tr></table></figure>
+<p><a href="https://github.com/xwydq/heat-map/blob/master/sim.gif" target="_blank" rel="external"><code>gif&#x6548;&#x679C;&#x56FE;&#x5C55;&#x793A;</code></a> <img src="/2016/12/27/heat-map/sim.gif"></p>
+<h3 id="&#x540E;&#x7EED;&#x6539;&#x8FDB;">&#x540E;&#x7EED;&#x6539;&#x8FDB;</h3>
+<p>&#x76F4;&#x63A5;&#x4F7F;&#x7528;<code>js; echart; leaflet</code>&#x5728;&#x524D;&#x7AEF;&#x5B9E;&#x73B0;&#x53EF;&#x89C6;&#x5316;&#xFF0C;&#x5E76;&#x4F7F;&#x7528;&#x63A7;&#x4EF6;&#x64CD;&#x4F5C;</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/REmap/" rel="tag">#REmap</a>
+          
+            <a href="/tags/经纬度/" rel="tag">#经纬度</a>
+          
+            <a href="/tags/gif/" rel="tag">#gif</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/20/hexo-mathjax-pandoc-renderer/" rel="next" title="hexo mathjax 公式显示异常">
+                <i class="fa fa-chevron-left"></i> hexo mathjax 公式显示异常
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/27/heat-map/"
+           data-title="人群分布的热力地图展示" data-url="http://yoursite.com/2016/12/27/heat-map/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="大葱丛" />
+          <p class="site-author-name" itemprop="name">大葱丛</p>
+          <p class="site-description motion-element" itemprop="description">人的一切痛苦，本质上都是对自己的无能的愤怒</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#地址清洗"><span class="nav-number">1.</span> <span class="nav-text">地址清洗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据整理"><span class="nav-number">2.</span> <span class="nav-text">数据整理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用remap生成热力图的html文件"><span class="nav-number">3.</span> <span class="nav-text">使用REmap生成热力图的html文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#html文件转为png图片"><span class="nav-number">4.</span> <span class="nav-text">html文件转为png图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#png图片合并转化为动图gif"><span class="nav-number">5.</span> <span class="nav-text">png图片合并转化为动图gif</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后续改进"><span class="nav-number">6.</span> <span class="nav-text">后续改进</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大葱丛</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xwydq"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+  
+
+  
+
+</body>
+</html>
